@@ -89,7 +89,7 @@ const DeployForm = () => {
                     </button>
                 : deployFinished
                 ?
-                    <a href={`http://${deployId}.localhost:3001`} target='_blank'>
+                    <a href={`http://${deployId}.${process.env.REACT_APP_SERVER_URL_WO_HTTP}`} target='_blank'>
                         <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 me-2 mt-4 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                 Visit App
                         </button>
