@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 const DeployForm = () => {
     const [repositoryURL, setRepositoryURL] = useState('')
+    const [buildCommand, setBuildCommand] = useState('')
+    const [installCommand, setInstallCommand] = useState('')
     const [sentDeploy, setSentDeploy] = useState(false)
     const [deployId, setDeployId] = useState('')
     const [deployStatus, setDeployStatus] = useState('Uploading...')
@@ -22,7 +24,11 @@ const DeployForm = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ repoUrl: repositoryURL })
+            body: JSON.stringify({ 
+                repoUrl: repositoryURL,
+                buildCommand: buildCommand,
+                installCommand: installCommand
+            })
         })
         const data = await response.json()
         if (data.id) {
@@ -51,8 +57,21 @@ const DeployForm = () => {
                     onChange={(e) => handleRepoUrlChange(e)}
                     value={repositoryURL}
                 />
-
                 <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Please notice, that your Repository has to be public. Read our <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Getting Started</a> for more informations.</p>
+
+                <label for="install-cmd" class="block mb-2 mt-4 text-sm text-gray-900 dark:text-white">Install Command</label>
+                <input type="text" id="install-cmd" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="npm i" 
+                    disabled={sentDeploy}
+                    onChange={(e) => setInstallCommand(e.target.value)}
+                    value={installCommand}
+                />
+
+                <label for="build-cmd" class="block mb-2 mt-4 text-sm text-gray-900 dark:text-white">Build Command</label>
+                <input type="text" id="build-cmd" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="npm run build" 
+                    disabled={sentDeploy}
+                    onChange={(e) => setBuildCommand(e.target.value)}
+                    value={buildCommand}
+                />
 
                 {repositoryURL && !sentDeploy
                 ? 
